@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddEditTodoPage extends StatefulWidget {
-  static String routeName = '/add-edit-todo-page';
+  static const String routeName = '/add-edit-todo-page';
 
   const AddEditTodoPage({super.key});
 
-  static Widget builder(BuildContext context) {
-    var args = ModalRoute.of(context)!.settings.arguments as TodoModel?;
-    return BlocProvider(
-      create: (context) => AddEditBloc(AddEditState(todoModel: args)),
-      child: AddEditTodoPage(),
-    );
-  }
+  // static Widget builder(BuildContext context) {
+  //   var args = ModalRoute.of(context)!.settings.arguments as TodoModel?;
+  //   return BlocProvider(
+  //     create: (context) => AddEditBloc(AddEditState(todoModel: args)),
+  //     child: AddEditTodoPage(),
+  //   );
+  // }
 
   @override
   State<AddEditTodoPage> createState() => _AddEditTodoPageState();
@@ -26,8 +26,6 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
   final _descriptionController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
-  AddEditBloc get bloc => BlocProvider.of<AddEditBloc>(context);
 
   @override
   void initState() {
@@ -87,7 +85,9 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (!_formKey.currentState!.validate()) return;
-                          bloc.add(SubmitEvent(title: _titleController.text.trim(), description: _descriptionController.text.trim()));
+                          context.read<AddEditBloc>().add(
+                            SubmitEvent(title: _titleController.text.trim(), description: _descriptionController.text.trim()),
+                          );
                         },
                         child: Text(state.isEdit ? 'Update' : 'Save'),
                       ),

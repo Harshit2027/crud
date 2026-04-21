@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
-  static String routeName = '/home-page';
+  static const String routeName = '/home-page';
 
   static Widget builder(BuildContext context) {
     return BlocProvider(create: (context) => HomeBloc(HomeState()), child: HomePage());
